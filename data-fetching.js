@@ -12,7 +12,7 @@ async function fetchDataFromAPI(url) {
       return data;
    } catch (error) {
       console.error('Error loading data from URL:', url, error);
-      return null; // Gibt null zurück, um Fehler im aufrufenden Code zu behandeln
+      return null; 
    }
 }
 

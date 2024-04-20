@@ -7,7 +7,6 @@ function navigatePokemon(direction) {
 
     if (currentIndex !== -1) {
         let newIndex = direction === 'prev' ? currentIndex - 1 : currentIndex + 1;
-        // Ensure newIndex wraps around the pokemons array
         if (newIndex < 0) {
             newIndex = pokemons.length - 1;
         } else if (newIndex >= pokemons.length) {

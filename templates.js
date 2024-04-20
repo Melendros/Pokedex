@@ -114,7 +114,18 @@ function generateBaseStatsContent(pokemonId) {
 }
 
 function generateMovesContent(pokemonId) {
-   return '<div>Moves content here</div>';
+   const pokemon = pokemons.find(p => p.details.id.toString() === pokemonId);
+   if (!pokemon || !pokemon.details.moves) {
+       return '<div>No moves available for this Pokémon.</div>';
+   }
+
+   const movesHtml = pokemon.details.moves.map(moveEntry => `<p class="move">- ${moveEntry.move.name}</p>`).join('');
+   return `
+       <div class="moves-div">
+           <h2>Moves:</h2>
+           <div class="moves">${movesHtml}</div>
+       </div>
+   `;
 }
 
 function generateEvolutionContent(pokemonId) {

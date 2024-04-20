@@ -5,7 +5,7 @@ let isLoading = false;
 let isBottomReached = false;
 
 /**
- * Initialisiert die Anwendung durch Laden der ersten 30 Pokémon und Einrichtung des Scroll-Listeners.
+ * Initialises the page, loads the first 50 pokemon and sets up a scroll-listener
  */
 async function init() {
    setupScrollListener();
@@ -16,7 +16,7 @@ async function init() {
 
 
 /**
- * Setzt den Scroll-Listener ein, um festzustellen, ob das Ende der Seite erreicht wurde.
+ * Sets up a scroll listener, to watch the scrollbar to reach the end
  */
 function setupScrollListener() {
    window.addEventListener('scroll', () => {
