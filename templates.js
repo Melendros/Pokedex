@@ -48,7 +48,8 @@ function generateOpenedPokemonCardHTML(pokemon) {
            <div class="openCard_span_div">
                <div class="openCard_number">#${pokemon.details.id}</div>
                <div class="openCard_name">${pokemon.name.toUpperCase()}</div>
-           </div>
+           <div onclick="closeCardDetail()" class="close">X</div>
+            </div>
 
            <div class="openCard_details">
                <img

@@ -21,7 +21,7 @@ async function init() {
 function setupScrollListener() {
    window.addEventListener('scroll', () => {
       const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 10) {
+      if (scrollTop + clientHeight >= scrollHeight - 50) {
          isBottomReached = true;
       }
       loadMorePokemon();

@@ -203,6 +203,8 @@ input[type="text"]:focus {
 }
 
 
+
+
 #overlay {
     position: fixed;
     top: 0;
@@ -240,17 +242,38 @@ input[type="text"]:focus {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.close {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 100%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 1);
+    border: 2px solid black;
+}
+
+.close:hover {
+    scale:1.1;
+
+}
+
 .openCard_span_div {
+    width: calc(100% - 20px);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 30px;
     font-size: 26px;
     font-weight: 600;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     line-height: 100%;
-    padding: 10px 0;
+    padding: 10px 10px;
     height: 5%;
 }
 
