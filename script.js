@@ -1,5 +1,6 @@
 const BASE_URL = 'https://pokeapi.co/api/v2/';
 let pokemons = [];
+let pokemon_evolution = [];
 let currentOffset = 0;
 let isLoading = false;
 let isBottomReached = false;
@@ -14,7 +15,6 @@ async function init() {
    renderCards();
 }
 
-
 /**
  * Sets up a scroll listener, to watch the scrollbar to reach the end
  */
@@ -27,7 +27,6 @@ function setupScrollListener() {
       loadMorePokemon();
    });
 }
-
 
 /**
  * Renders cards for all Pokémon and adds them to the DOM. This function first

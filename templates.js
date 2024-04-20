@@ -42,7 +42,9 @@ function generateOpenedPokemonCardHTML(pokemon) {
    const aboutContent = generateAboutContent(pokemon.details.id.toString());
 
    const openCardHTML = /*html*/ `
-       <div class="pokemonDetailCard" id="pokemonDetailCard" data-pokemon-id="${pokemon.details.id}">
+       <div class="pokemonDetailCard" id="pokemonDetailCard" data-pokemon-id="${
+          pokemon.details.id
+       }">
            <div class="openCard_span_div">
                <div class="openCard_number">#${pokemon.details.id}</div>
                <div class="openCard_name">${pokemon.name.toUpperCase()}</div>
@@ -51,16 +53,25 @@ function generateOpenedPokemonCardHTML(pokemon) {
            <div class="openCard_details">
                <img
                    class="detail_img"
-                   src="${pokemon.details.sprites.other.dream_world.front_default || pokemon.details.sprites.other.home.front_default}"
+                   src="${
+                      pokemon.details.sprites.other.dream_world.front_default ||
+                      pokemon.details.sprites.other.home.front_default
+                   }"
                    alt="${pokemon.name}"
                />
 
                <div class="detail_content">
                    <nav>
-                       <p class="active" onclick="changeContent('About', '${pokemon.details.id}')">About</p>
-                       <p onclick="changeContent('Base Stats', '${pokemon.details.id}')">Base Stats</p>
+                       <p class="active" onclick="changeContent('About', '${
+                          pokemon.details.id
+                       }')">About</p>
+                       <p onclick="changeContent('Base Stats', '${
+                          pokemon.details.id
+                       }')">Base Stats</p>
                        <p onclick="changeContent('Moves', '${pokemon.details.id}')">Moves</p>
-                       <p onclick="changeContent('Evolution', '${pokemon.details.id}')">Evolution</p>
+                       <p onclick="changeContent('Evolution', '${
+                          pokemon.details.id
+                       }')">Evolution</p>
                    </nav>
 
                    <div class="nav_result">
@@ -73,16 +84,12 @@ function generateOpenedPokemonCardHTML(pokemon) {
    return openCardHTML;
 }
 
-
-
-
-
 function generateAboutContent(pokemonId) {
-   const pokemon = pokemons.find(p => p.details.id.toString() === pokemonId);
-   if (!pokemon) return '<div>Pokémon not found.</div>';  // Falls das Pokémon nicht gefunden wird
+   const pokemon = pokemons.find((p) => p.details.id.toString() === pokemonId);
+   if (!pokemon) return '<div>Pokémon not found.</div>'; // Falls das Pokémon nicht gefunden wird
 
-   const types = pokemon.details.types.map(type => type.type.name).join(', ');
-   const abilities = pokemon.details.abilities.map(ability => ability.ability.name).join(', ');
+   const types = pokemon.details.types.map((type) => type.type.name).join(', ');
+   const abilities = pokemon.details.abilities.map((ability) => ability.ability.name).join(', ');
 
    return `
        <div class="nav_row">
@@ -108,19 +115,20 @@ function generateAboutContent(pokemonId) {
    `;
 }
 
-
 function generateBaseStatsContent(pokemonId) {
    return '<div>Base Stats content here</div>';
 }
 
 function generateMovesContent(pokemonId) {
-   const pokemon = pokemons.find(p => p.details.id.toString() === pokemonId);
+   const pokemon = pokemons.find((p) => p.details.id.toString() === pokemonId);
    if (!pokemon || !pokemon.details.moves) {
-       return '<div>No moves available for this Pokémon.</div>';
+      return '<div>No moves available for this Pokémon.</div>';
    }
 
-   const movesHtml = pokemon.details.moves.map(moveEntry => `<p class="move">- ${moveEntry.move.name}</p>`).join('');
-   return `
+   const movesHtml = pokemon.details.moves
+      .map((moveEntry) => `<p class="move">- ${moveEntry.move.name}</p>`)
+      .join('');
+   return /*html*/ `
        <div class="moves-div">
            <h2>Moves:</h2>
            <div class="moves">${movesHtml}</div>
@@ -128,6 +136,40 @@ function generateMovesContent(pokemonId) {
    `;
 }
 
-function generateEvolutionContent(pokemonId) {
-   return '<div>Evolution chain here</div>';
+async function generateEvolutionContent(pokemonId) {
+   const pokemon = pokemons.find((p) => p.details.id.toString() === pokemonId);
+   if (!pokemon || !pokemon.evolutionChain) {
+      return '<div>No evolution data available.</div>';
+   }
+
+   let chain = pokemon.evolutionChain.chain;
+   while (chain) {
+      await fetchAndStorePokemonIfMissing(chain.species.url);
+
+      chain = chain.evolves_to.length > 0 ? chain.evolves_to[0] : null;
+   }
+
+   return renderEvolutionChain(pokemon.evolutionChain.chain);
+}
+
+function renderEvolutionChain(chain) {
+   let htmlContent = '<div class="pokemon_evolution_div">';
+   while (chain) {
+      const speciesName = chain.species.name;
+      const speciesPokemon = pokemon_evolution.find((p) => p.name === speciesName);
+      const imageUrl = speciesPokemon
+         ? speciesPokemon.details.sprites.other.dream_world.front_default ||
+           speciesPokemon.details.sprites.other.home.front_default
+         : 'path/to/default/image.jpg';
+
+      htmlContent += `<img class="pokemon_evolution_image" src="${imageUrl}" alt="${speciesName}">`;
+      if (chain.evolves_to.length > 0) {
+         htmlContent += '<img class="arrow" src="img/long-arrow-right-icon.svg" alt="">';
+         chain = chain.evolves_to[0];
+      } else {
+         break;
+      }
+   }
+   htmlContent += '</div>';
+   return htmlContent;
 }

@@ -12,7 +12,7 @@ async function fetchDataFromAPI(url) {
       return data;
    } catch (error) {
       console.error('Error loading data from URL:', url, error);
-      return null; 
+      return null;
    }
 }
 
@@ -91,4 +91,32 @@ function loadMorePokemon() {
    loadPokemon(50, currentOffset);
    currentOffset += 50;
    renderCards();
+}
+
+/**
+ * Fetches and stores a Pokémon by its species URL if it's not already loaded into the evolution data array.
+ * @param {string} speciesUrl - The URL to fetch Pokémon species data from.
+ * @returns {Promise<void>}
+ */
+async function fetchAndStorePokemonIfMissing(speciesUrl) {
+   const pokemonExists = pokemon_evolution.some(
+      (pokemon) => pokemon.speciesDetails.url === speciesUrl
+   );
+   if (!pokemonExists) {
+      const speciesData = await fetchDataFromAPI(speciesUrl);
+      if (speciesData) {
+         const pokemonData = await fetchDataFromAPI(
+            `https://pokeapi.co/api/v2/pokemon/${speciesData.id}/`
+         );
+         if (pokemonData) {
+            const newPokemon = {
+               name: pokemonData.name,
+               url: `https://pokeapi.co/api/v2/pokemon/${speciesData.id}/`,
+               details: pokemonData,
+               speciesDetails: speciesData,
+            };
+            pokemon_evolution.push(newPokemon);
+         }
+      }
+   }
 }

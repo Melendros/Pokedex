@@ -22,7 +22,7 @@ function navigatePokemon(direction) {
  * Handles navigation clicks in the Pokémon detail view.
  * @param {string} contentType - The type of content to display (e.g., 'About', 'Base Stats', 'Moves', 'Evolution').
  */
-function changeContent(contentType, pokemonId) {
+async function changeContent(contentType, pokemonId) {
     const navItems = document.querySelectorAll('.detail_content nav p');
     const resultContainer = document.querySelector('.nav_result');
 
@@ -45,7 +45,7 @@ function changeContent(contentType, pokemonId) {
             resultContainer.innerHTML = generateMovesContent(pokemonId);
             break;
         case 'Evolution':
-            resultContainer.innerHTML = generateEvolutionContent(pokemonId);
+            resultContainer.innerHTML = await generateEvolutionContent(pokemonId);
             break;
     }
 }
