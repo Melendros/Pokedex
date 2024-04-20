@@ -115,9 +115,6 @@ function generateAboutContent(pokemonId) {
    `;
 }
 
-function generateBaseStatsContent(pokemonId) {
-   return '<div>Base Stats content here</div>';
-}
 
 function generateMovesContent(pokemonId) {
    const pokemon = pokemons.find((p) => p.details.id.toString() === pokemonId);
@@ -173,3 +170,6 @@ function renderEvolutionChain(chain) {
    htmlContent += '</div>';
    return htmlContent;
 }
+
+
+
